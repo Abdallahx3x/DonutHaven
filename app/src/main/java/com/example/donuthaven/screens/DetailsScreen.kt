@@ -21,6 +21,10 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -45,6 +49,13 @@ fun DetailsScreen() {
 @Composable
 fun DetailsContent() {
 
+    var quantities by remember {
+        mutableStateOf(1)
+    }
+
+    var price by remember {
+        mutableStateOf(16)
+    }
 
     Box(
         Modifier
@@ -123,7 +134,10 @@ fun DetailsContent() {
 
 
                     ) {
-                        IconButton(onClick = { /*TODO*/ }) {
+                        IconButton(onClick = {
+                            if (quantities > 1) quantities--
+                            if (price > 16) price -= 16
+                        }) {
                             Icon(
                                 painterResource(id = R.drawable.decrease_icon),
                                 contentDescription = "null",
@@ -144,7 +158,7 @@ fun DetailsContent() {
 
                     ) {
                         Text(
-                            text = "1",
+                            text = "$quantities",
                             style = TextStyle(
                                 fontSize = 22.sp,
                                 fontWeight = FontWeight(500),
@@ -167,7 +181,10 @@ fun DetailsContent() {
 
 
                     ) {
-                        IconButton(onClick = { /*TODO*/ }) {
+                        IconButton(onClick = {
+                            quantities++
+                            price += 16
+                        }) {
                             Icon(
                                 painterResource(id = R.drawable.increase_icon),
                                 contentDescription = "null",
@@ -187,7 +204,7 @@ fun DetailsContent() {
                         .fillMaxWidth(),
                 ) {
                     Text(
-                        text = "£16", modifier = Modifier
+                        text = "£$price", modifier = Modifier
                             .padding(end = 20.dp)
                             .align(Alignment.CenterVertically),
                         fontSize = 24.sp, color = Color.Black,
